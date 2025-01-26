@@ -163,23 +163,23 @@ frame.place(relx=0.5, rely=0.5, anchor="center")
 # Dashboard Screen UI
 dashboard_frame = tk.Frame(root, bg="white")
 
-header_frame = tk.Frame(dashboard_frame, bg="#87CEEB", height=50)
-header_frame.pack(fill="x")
-header_label = tk.Label(header_frame, text="ATTENDANCE MANAGEMENT SYSTEM", font=("Helvetica", 16, "bold"), bg="#87CEEB", fg="white")
-header_label.pack(pady=10)
+title_label = tk.Label(
+    root, text="ATTENDANCE MANAGEMENT SYSTEM", 
+    font=("Helvetica", 24, "bold"), 
+    bg="#4682B4", fg="white", 
+    pady=10
+)
+title_label.pack(fill=tk.X)
 
 # Left menu frame for buttons
 left_frame = tk.Frame(dashboard_frame, bg="lightgray", width=500, relief=tk.SUNKEN, bd=2)
 left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=10, pady=10)
 
-register_label = tk.Label(
+menu_label = tk.Label(
     left_frame, text="MENU", 
     font=("Helvetica", 18, "bold"), bg="lightgray"
 )
-register_label.pack(pady=10)
-# Add a vertical line on the right side of the menu frame
-left_separator = tk.Frame(dashboard_frame, bg="black", width=2)
-left_separator.pack(side="left", fill="y")
+menu_label.pack(pady=10)
 
 # Add a container frame for the buttons to center them
 menu_buttons_frame = tk.Frame( left_frame, bg="lightgray")
@@ -201,18 +201,18 @@ logout_button = tk.Button(menu_buttons_frame, text="LOG OUT", font=("Arial", 12)
 logout_button.pack(fill="x", pady=10)
 
 # Add a vertical line on the left side of the main content
-right_separator = tk.Frame(dashboard_frame, bg="black", width=2)
-right_separator.pack(side="right", fill="y")
+right_frame = tk.Frame(dashboard_frame, bg="lightgray", width=500, relief=tk.SUNKEN, bd=2)
+right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=10, pady=10)
 
-# Add content to main content frame
-content_frame = tk.Frame(dashboard_frame, bg="lightgray", width=700, height=500)
-content_frame.pack(side="right", fill="both", expand=True)
-content_label = tk.Label(content_frame, text="DASHBOARD", font=("Arial", 18, "bold"), bg="lightgray")
-content_label.pack(pady=20)
+dashboard_label = tk.Label(
+    right_frame, text="DASHBOARD", 
+    font=("Helvetica", 18, "bold"), bg="lightgray"
+)
+dashboard_label.pack(pady=10)
 
 # Professor Registration UI
 register_frame = tk.Frame(frame, bg="lightgray")
-register_label = tk.Label(register_frame, text="Professor Registration", font=("Helvetica", 14, "bold"), bg="lightgray")
+register_label = tk.Label(register_frame, text="SIGN UP", font=("Helvetica", 14, "bold"), bg="lightgray", fg="darkblue")
 register_label.pack(pady=10)
 
 username_label_reg = tk.Label(register_frame, text="Username:", font=("Arial", 12), bg="lightgray")
@@ -237,7 +237,7 @@ back_to_login_button.pack(pady=10)
 
 # Professor Login UI
 login_frame = tk.Frame(frame, bg="lightgray")
-login_label = tk.Label(login_frame, text="Professor Login", font=("Helvetica", 14, "bold"), bg="lightgray")
+login_label = tk.Label(login_frame, text="LOG IN", font=("Helvetica", 14, "bold"), bg="lightgray")
 login_label.pack(pady=10)
 
 username_label_log = tk.Label(login_frame, text="Username:", font=("Arial", 12), bg="lightgray")
@@ -314,3 +314,4 @@ back_to_dashboard_button.pack(pady=10)
 
 # Run the Tkinter main loop
 root.mainloop()
+
