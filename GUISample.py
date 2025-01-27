@@ -4,7 +4,7 @@ import sqlite3
 
 # Initialize Tkinter root window
 root = tk.Tk()
-root.title("Professor Registration and Login")
+root.title("AMS")
 root.geometry("900x600")
 root.configure(bg="lightgray")
 
@@ -173,9 +173,11 @@ title_label = tk.Label(
 )
 title_label.pack(fill=tk.X)
 
-# Left menu frame for buttons
-left_frame = tk.Frame(dashboard_frame, bg="lightgray", width=500, relief=tk.SUNKEN, bd=2)
-left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+left_frame = tk.Frame(dashboard_frame, bg="lightgray", width=200, relief=tk.SUNKEN, bd=2)
+left_frame.pack(side=tk.LEFT, fill=tk.Y, padx=10, pady=10)
+left_frame.pack_propagate(False)  # Prevent resizing to fit contents
+left_frame.config(height=600)
 
 menu_label = tk.Label(
     left_frame, text="MENU", 
@@ -203,7 +205,7 @@ logout_button = tk.Button(menu_buttons_frame, text="LOG OUT", font=("Arial", 12)
 logout_button.pack(fill="x", pady=10)
 
 # Add a vertical line on the left side of the main content
-right_frame = tk.Frame(dashboard_frame, bg="lightgray", width=500, relief=tk.SUNKEN, bd=2)
+right_frame = tk.Frame(dashboard_frame, bg="lightgray", width=600, relief=tk.SUNKEN, bd=2)
 right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=10, pady=10)
 
 dashboard_label = tk.Label(
@@ -213,53 +215,64 @@ dashboard_label = tk.Label(
 dashboard_label.pack(pady=10)
 
 # Professor Registration UI
-register_frame = tk.Frame(frame, bg="lightgray")
-register_label = tk.Label(register_frame, text="SIGN UP", font=("Helvetica", 14, "bold"), bg="lightgray", fg="darkblue")
-register_label.pack(pady=10)
+register_frame = tk.Frame(root, bg="#E7E7E7")
 
-username_label_reg = tk.Label(register_frame, text="Username:", font=("Arial", 12), bg="lightgray")
+mid_frame_register = tk.Frame(register_frame, bg="lightgray", width=400, height=400, relief=tk.SUNKEN, bd=2)
+mid_frame_register.pack(fill=None, expand=False, padx=50, pady=50)
+mid_frame_register.pack_propagate(False)
+
+register_label = tk.Label(mid_frame_register, text="SIGN UP", font=("Helvetica", 20, "bold"), bg="lightgray")
+register_label.pack(pady=20)
+
+username_label_reg = tk.Label(mid_frame_register, text="Username:", font=("Arial", 12), bg="lightgray")
 username_label_reg.pack(pady=5)
-username_entry_reg = tk.Entry(register_frame, font=("Arial", 12), width=30)
-username_entry_reg.pack(pady=5)
+username_entry_reg = tk.Entry(mid_frame_register, font=("Arial", 12), width=30, bd=2)
 
-password_label_reg = tk.Label(register_frame, text="Password:", font=("Arial", 12), bg="lightgray")
+username_entry_reg.pack(pady=10, ipady=5)
+
+password_label_reg = tk.Label(mid_frame_register, text="Password:", font=("Arial", 12), bg="lightgray")
 password_label_reg.pack(pady=5)
-password_entry_reg = tk.Entry(register_frame, font=("Arial", 12), width=30, show="*")
-password_entry_reg.pack(pady=5)
+password_entry_reg = tk.Entry(mid_frame_register, font=("Arial", 12), width=30, show="*", bd=2)
+password_entry_reg.pack(pady=5, ipady=5)
 
 password_checkbox_var_reg = tk.BooleanVar()
-password_checkbox_reg = tk.Checkbutton(register_frame, text="Show Password", variable=password_checkbox_var_reg, command=lambda: toggle_password(password_entry_reg, password_checkbox_var_reg), bg="lightgray")
+password_checkbox_reg = tk.Checkbutton(mid_frame_register, text="Show Password", variable=password_checkbox_var_reg, command=lambda: toggle_password(password_entry_reg, password_checkbox_var_reg), bg="lightgray")
 password_checkbox_reg.pack(pady=5)
 
-register_button = tk.Button(register_frame, text="Register", font=("Arial", 12), bg="#4682B4", fg="white", command=register_professor)
-register_button.pack(pady=20)
+register_button = tk.Button(mid_frame_register, text="Register", font=("Arial", 12), bg="#4682B4", fg="white", command=register_professor)
+register_button.pack(pady=10)
 
-back_to_login_button = tk.Button(register_frame, text="Back to Login", font=("Arial", 12), bg="#4682B4", fg="white", command=go_back_to_login)
+back_to_login_button = tk.Button(mid_frame_register, text="Back to Login", font=("Arial", 12), bg="#4682B4", fg="white", command=go_back_to_login)
 back_to_login_button.pack(pady=10)
 
 # Professor Login UI
-login_frame = tk.Frame(frame, bg="lightgray")
-login_label = tk.Label(login_frame, text="LOG IN", font=("Helvetica", 14, "bold"), bg="lightgray")
-login_label.pack(pady=10)
+login_frame = tk.Frame(root,  bg="#E7E7E7")
 
-username_label_log = tk.Label(login_frame, text="Username:", font=("Arial", 12), bg="lightgray")
+mid_frame = tk.Frame(login_frame, bg="lightgray", width=400, height=400, relief=tk.SUNKEN, bd=2)
+mid_frame.pack(fill=None, expand=False, padx=50, pady=50)
+mid_frame.pack_propagate(False)
+
+login_label = tk.Label(mid_frame, text="LOG IN", font=("Helvetica", 20, "bold"), bg="lightgray")
+login_label.pack(pady=20)
+
+username_label_log = tk.Label(mid_frame, text="Username:", font=("Arial", 12), bg="lightgray")
 username_label_log.pack(pady=5)
-username_entry_log = tk.Entry(login_frame, font=("Arial", 12), width=30)
-username_entry_log.pack(pady=5)
+username_entry_log = tk.Entry(mid_frame, font=("Arial", 12), width=30, bd=2)
+username_entry_log.pack(pady=10, ipady=5)
 
-password_label_log = tk.Label(login_frame, text="Password:", font=("Arial", 12), bg="lightgray")
+password_label_log = tk.Label(mid_frame, text="Password:", font=("Arial", 12), bg="lightgray")
 password_label_log.pack(pady=5)
-password_entry_log = tk.Entry(login_frame, font=("Arial", 12), width=30, show="*")
-password_entry_log.pack(pady=5)
+password_entry_log = tk.Entry(mid_frame, font=("Arial", 12), width=30, show="*", bd=2)
+password_entry_log.pack(pady=5, ipady=5)
 
 password_checkbox_var_log = tk.BooleanVar()
-password_checkbox_log = tk.Checkbutton(login_frame, text="Show Password", variable=password_checkbox_var_log, command=lambda: toggle_password(password_entry_log, password_checkbox_var_log), bg="lightgray")
+password_checkbox_log = tk.Checkbutton(mid_frame, text="Show Password", variable=password_checkbox_var_log, command=lambda: toggle_password(password_entry_log, password_checkbox_var_log), bg="lightgray")
 password_checkbox_log.pack(pady=5)
 
-login_button = tk.Button(login_frame, text="Login", font=("Arial", 12), bg="#4682B4", fg="white", command=login_professor)
-login_button.pack(pady=20)
+login_button = tk.Button(mid_frame, text="Login", font=("Arial", 12), bg="#4682B4", fg="white", command=login_professor)
+login_button.pack(pady=10, ipadx=12)
 
-create_account_button = tk.Button(login_frame, text="Create Account", font=("Arial", 12), bg="#4682B4", fg="white", command=switch_to_register)
+create_account_button = tk.Button(mid_frame, text="Create Account", font=("Arial", 12), bg="#4682B4", fg="white", command=switch_to_register)
 create_account_button.pack(pady=10)
 
 login_frame.pack(fill="both", expand=True)
@@ -319,7 +332,7 @@ def show_dashboard_screen():
     clear_right_frame()
     dashboard_label = tk.Label(
         right_frame, text="DASHBOARD", 
-        font=("Helvetica", 18, "bold"), bg="lightgray"
+        font=("Helvetica", 18, "bold"), bg="#4682B4"
         
     )
     dashboard_label.pack(pady=10)
@@ -330,24 +343,52 @@ def show_dashboard_screen():
         bg="lightgray", 
         wraplength=400
     )
-    first_text_label.pack(pady=10)
+    first_text_label.pack(anchor="w", padx=10, pady=10)
 def show_records_screen():
     clear_right_frame()
+      # Create a frame to act as the container for the label
+    records_label_frame = tk.Frame(
+        right_frame, bg="black", 
+        padx=10, pady=10,  # Padding to create a border effectghyyyyyyy
+    )
+    records_label_frame.pack(pady=8) 
     records_label = tk.Label(
         right_frame, text="VIEW/ADD RECORDS", 
-        font=("Helvetica", 18, "bold"), bg="lightgray",
-        
+        font=("Helvetica", 20, "bold"), bg="#91BDF5",
+        padx=15, pady=15
     )
+    
     records_label.pack(pady=10)
     second_text_label = tk.Label(
         right_frame, 
-        text="PAGKA YUNG NASA SINGIT MO DALA KO PALAMAN", 
+        text="COURSES", 
         font=("Helvetica", 20), 
         bg="lightgray", 
-        wraplength=400
+        wraplength=400,
+        
     )
-    second_text_label.pack(pady=10)
-
+    second_text_label.pack(anchor="w", padx=5, pady=10)
+    
+    bsit_button = tk.Button(right_frame, text="BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY", font=("Arial", 14), bg="#4682B4", fg="white", command="")
+    bsit_button.pack(pady=10, ipadx=5, ipady=21)
+    bscs_button = tk.Button(right_frame, text=" BACHELOR OF SCIENCE IN COMPUTER SCIENCE ", font=("Arial", 14), bg="#4682B4", fg="white", command="")
+    bscs_button.pack(pady=10, ipadx=38, ipady=20)
+    
+    add_course_button = tk.Button(right_frame, text="BACHELOR OF SCIENCE IN INFORMATION SYSTEM", font=("Arial", 14), bg="#4682B4", fg="white", command="")
+    add_course_button.pack(pady=10, ipadx=36, ipady=20)    
+    
+   
+''' 
+    courses_text_label = tk.Label(
+        right_frame, 
+        text="BACHELOR OF SCIENCE INFORMATION TECHNOLOGY", 
+        font=("Helvetica", 20), 
+        bg="#0d98ba", 
+        wraplength=400,
+        
+    )
+    courses_text_label.pack(pady=10)
+'''
 def show_schedule_screen():
     clear_right_frame()
     schedule_label = tk.Label(
@@ -362,7 +403,7 @@ def show_schedule_screen():
         bg="lightgray", 
         wraplength=400
     )
-    third_text_label.pack(pady=10)
+    third_text_label.pack(anchor="w", padx=10, pady=10)
 def show_account_screen():
     clear_right_frame()
     account_label = tk.Label(
@@ -377,7 +418,7 @@ def show_account_screen():
         bg="lightgray", 
         wraplength=400
     )
-    fourth_text_label.pack(pady=10)
+    fourth_text_label.pack(anchor="w", padx=10, pady=10)
 
 def clear_right_frame():
     for widget in right_frame.winfo_children():
