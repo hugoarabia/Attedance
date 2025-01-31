@@ -5,7 +5,8 @@ import sqlite3
 # Initialize Tkinter root window
 root = tk.Tk()
 root.title("AMS")
-root.geometry("900x600")
+root.geometry("1000x600")  # Set fixed size
+root.resizable(False, False) 
 root.configure(bg="lightgray")
 
 # Create SQLite connection
@@ -346,10 +347,9 @@ def show_dashboard_screen():
     first_text_label.pack(anchor="w", padx=10, pady=10)
 def show_records_screen():
     clear_right_frame()
-      # Create a frame to act as the container for the label
     records_label_frame = tk.Frame(
         right_frame, bg="black", 
-        padx=10, pady=10,  # Padding to create a border effectghyyyyyyy
+        padx=10, pady=10, 
     )
     records_label_frame.pack(pady=8) 
     records_label = tk.Label(
@@ -369,7 +369,7 @@ def show_records_screen():
     )
     second_text_label.pack(anchor="w", padx=5, pady=10)
     
-    bsit_button = tk.Button(right_frame, text="BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY", font=("Arial", 14), bg="#4682B4", fg="white", command="")
+    bsit_button = tk.Button(right_frame, text="BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY", font=("Arial", 14), bg="#4682B4", fg="white", command=yearlevel_and_section_frame)
     bsit_button.pack(pady=10, ipadx=5, ipady=21)
     bscs_button = tk.Button(right_frame, text=" BACHELOR OF SCIENCE IN COMPUTER SCIENCE ", font=("Arial", 14), bg="#4682B4", fg="white", command="")
     bscs_button.pack(pady=10, ipadx=38, ipady=20)
@@ -377,6 +377,68 @@ def show_records_screen():
     add_course_button = tk.Button(right_frame, text="BACHELOR OF SCIENCE IN INFORMATION SYSTEM", font=("Arial", 14), bg="#4682B4", fg="white", command="")
     add_course_button.pack(pady=10, ipadx=36, ipady=20)    
     
+def on_mouse_wheel(event, canvas):
+    canvas.yview_scroll(-1 * (event.delta // 120), "units")
+
+def yearlevel_and_section_frame():
+    clear_right_frame()
+    
+    yearlevel_label = tk.Label(
+        right_frame, text="VIEW/ADD RECORDS", 
+        font=("Helvetica", 18, "bold"), bg="#4682B4"
+    )
+    yearlevel_label.pack(pady=10)
+
+    # Scrollable frame
+    canvas = tk.Canvas(right_frame, width=800, height=460)
+    scrollbar = tk.Scrollbar(right_frame, orient="vertical", command=canvas.yview)
+    
+    scroll_frame = tk.Frame(canvas, bg="lightgray")
+
+    scroll_frame.bind(
+        "<Configure>", 
+        lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+    )
+
+    canvas.create_window((0, 0), window=scroll_frame, anchor="nw")
+    canvas.configure(yscrollcommand=scrollbar.set)
+
+    canvas.pack(side="left", fill="both", expand=True)
+    scrollbar.pack(side="right", fill="y")
+
+    # Bind scroll event for mouse wheel
+    canvas.bind_all("<MouseWheel>", lambda event: on_mouse_wheel(event, canvas))
+
+    # Dictionary with sections for each year level
+    section_names = {
+        1: ["LFCA111M010", "LFCA322M011"],
+        2: ["LFCA211M025", "LFCA211A005"],
+        3: ["LFCA311M045", "LFCA311M046"],
+        4: ["LFCA411M055", "LFCA411M056"]  # Placeholder for 4th year, update as needed
+    }
+
+    # Add year level sections inside scrollable frame
+    for year in range(1, 5):  # 1st to 4th Year
+        year_frame = tk.Frame(scroll_frame, bg="lightgray", width=750, height=230, relief=tk.SUNKEN, bd=2)
+        year_frame.pack(fill=tk.X, padx=10, pady=10)
+        year_frame.pack_propagate(False)
+        
+        year_label = tk.Label(
+            year_frame, 
+            text=f"{year}ST YEAR" if year == 1 else f"{year}ND YEAR" if year == 2 else f"{year}RD YEAR" if year == 3 else "4TH YEAR", 
+            font=("Helvetica", 15, "bold"), fg="white",
+            bg="gray", 
+            wraplength=400,
+        )
+        year_label.pack(anchor="w", padx=5, pady=10)
+
+        # Add section buttons dynamically
+        for section in section_names.get(year, []):  
+            section_button = tk.Button(year_frame, text=section, font=("Arial", 14), bg="#4682B4", fg="white", command="")
+            section_button.pack(pady=5, ipadx=200, ipady=5)
+        
+        add_section_button = tk.Button(year_frame, text="ADD SECTION (+)", font=("Arial", 14), bg="#4682B4", fg="white", command="")
+        add_section_button.pack(pady=5, ipadx=190, ipady=5)  
    
 ''' 
     courses_text_label = tk.Label(
