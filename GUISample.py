@@ -2,12 +2,37 @@ import tkinter as tk
 from tkinter import messagebox
 import sqlite3
 
-# Initialize Tkinter root window
+# Full screen toggle function
+def toggle_fullscreen(event=None):
+    """Toggle between full screen and windowed mode."""
+    global is_fullscreen
+    is_fullscreen = not is_fullscreen
+    root.attributes("-fullscreen", is_fullscreen)
+
+# Exit full screen function
+def exit_fullscreen(event=None):
+    """Exit full screen mode."""
+    global is_fullscreen
+    is_fullscreen = False
+    root.attributes("-fullscreen", False)
+
+# Create the main window
 root = tk.Tk()
 root.title("AMS")
-root.geometry("1000x600")  # Set fixed size
-root.resizable(False, False) 
+is_fullscreen = True  # Start in full screen mode
+root.attributes("-fullscreen", is_fullscreen)
+
+# Bind the F11 key to toggle full screen
+root.bind("<F11>", toggle_fullscreen)
+# Bind the Escape key to exit full screen mode
+root.bind("<Escape>", exit_fullscreen)
+
+# Configure background (optional)
 root.configure(bg="lightgray")
+
+# ------------------------------
+# The remainder of your code:
+# ------------------------------
 
 # Create SQLite connection
 conn = sqlite3.connect('professor_student.db')
@@ -48,7 +73,7 @@ def show_dashboard():
     register_frame.pack_forget()
     dashboard_frame.pack(fill="both", expand=True)
     #student_registration_frame.pack_forget()
-    
+
 '''
 # Function to show student registration form
 def show_student_registration():
@@ -153,11 +178,13 @@ def switch_to_register():
 # Function to go back to login screen
 def go_back_to_login():
     global is_professor_logged_in
-    is_professor_logged_in = False
-    dashboard_frame.pack_forget()
-    #student_registration_frame.pack_forget()
-    register_frame.pack_forget()
-    login_frame.pack(fill="both", expand=True)
+    
+    # Ask for logout confirmation
+    if messagebox.askyesno("Logout", "Are you sure you want to log out?"):
+        is_professor_logged_in = False
+        dashboard_frame.pack_forget()
+        register_frame.pack_forget()
+        login_frame.pack(fill="both", expand=True)
 
 # UI for Registration and Login
 frame = tk.Frame(root, bg="lightgray")
@@ -174,7 +201,6 @@ title_label = tk.Label(
 )
 title_label.pack(fill=tk.X)
 
-
 left_frame = tk.Frame(dashboard_frame, bg="lightgray", width=200, relief=tk.SUNKEN, bd=2)
 left_frame.pack(side=tk.LEFT, fill=tk.Y, padx=10, pady=10)
 left_frame.pack_propagate(False)  # Prevent resizing to fit contents
@@ -187,7 +213,7 @@ menu_label = tk.Label(
 menu_label.pack(pady=10)
 
 # Add a container frame for the buttons to center them
-menu_buttons_frame = tk.Frame( left_frame, bg="lightgray")
+menu_buttons_frame = tk.Frame(left_frame, bg="lightgray")
 menu_buttons_frame.place(relx=0.5, rely=0.5, anchor="center")  # Center buttons vertically and horizontally
 
 dashboard_button = tk.Button(menu_buttons_frame, text="DASHBOARD", font=("Arial", 12), bg="white", command=show_dashboard)
@@ -228,7 +254,6 @@ register_label.pack(pady=20)
 username_label_reg = tk.Label(mid_frame_register, text="Username:", font=("Arial", 12), bg="lightgray")
 username_label_reg.pack(pady=5)
 username_entry_reg = tk.Entry(mid_frame_register, font=("Arial", 12), width=30, bd=2)
-
 username_entry_reg.pack(pady=10, ipady=5)
 
 password_label_reg = tk.Label(mid_frame_register, text="Password:", font=("Arial", 12), bg="lightgray")
@@ -247,7 +272,7 @@ back_to_login_button = tk.Button(mid_frame_register, text="Back to Login", font=
 back_to_login_button.pack(pady=10)
 
 # Professor Login UI
-login_frame = tk.Frame(root,  bg="#E7E7E7")
+login_frame = tk.Frame(root, bg="#E7E7E7")
 
 mid_frame = tk.Frame(login_frame, bg="lightgray", width=400, height=400, relief=tk.SUNKEN, bd=2)
 mid_frame.pack(fill=None, expand=False, padx=50, pady=50)
@@ -334,7 +359,6 @@ def show_dashboard_screen():
     dashboard_label = tk.Label(
         right_frame, text="DASHBOARD", 
         font=("Helvetica", 18, "bold"), bg="#4682B4"
-        
     )
     dashboard_label.pack(pady=10)
     first_text_label = tk.Label(
@@ -345,6 +369,7 @@ def show_dashboard_screen():
         wraplength=400
     )
     first_text_label.pack(anchor="w", padx=10, pady=10)
+
 def show_records_screen():
     clear_right_frame()
     records_label_frame = tk.Frame(
@@ -357,7 +382,6 @@ def show_records_screen():
         font=("Helvetica", 20, "bold"), bg="#91BDF5",
         padx=15, pady=15
     )
-    
     records_label.pack(pady=10)
     second_text_label = tk.Label(
         right_frame, 
@@ -365,7 +389,6 @@ def show_records_screen():
         font=("Helvetica", 20), 
         bg="lightgray", 
         wraplength=400,
-        
     )
     second_text_label.pack(anchor="w", padx=5, pady=10)
     
@@ -440,17 +463,6 @@ def yearlevel_and_section_frame():
         add_section_button = tk.Button(year_frame, text="ADD SECTION (+)", font=("Arial", 14), bg="#4682B4", fg="white", command="")
         add_section_button.pack(pady=5, ipadx=190, ipady=5)  
    
-''' 
-    courses_text_label = tk.Label(
-        right_frame, 
-        text="BACHELOR OF SCIENCE INFORMATION TECHNOLOGY", 
-        font=("Helvetica", 20), 
-        bg="#0d98ba", 
-        wraplength=400,
-        
-    )
-    courses_text_label.pack(pady=10)
-'''
 def show_schedule_screen():
     clear_right_frame()
     schedule_label = tk.Label(
@@ -466,6 +478,7 @@ def show_schedule_screen():
         wraplength=400
     )
     third_text_label.pack(anchor="w", padx=10, pady=10)
+
 def show_account_screen():
     clear_right_frame()
     account_label = tk.Label(
